@@ -97,6 +97,7 @@ export default function Quest() {
     const questRef = doc(db, "quest", quest.id);
     await deleteDoc(questRef);
     setQuests((prevQuests) => prevQuests.filter((_, i) => i !== index));
+    setIsEditing(false); // 編集モードを非表示にする
   };
 
   const handleCreateClick = async () => {
