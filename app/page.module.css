@@ -1,0 +1,288 @@
+.header {
+  height: 60px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.header nav {
+  margin-top: 0px;
+  display: inline-block;
+  text-decoration: none;
+  margin-right: 15px;
+  margin-left: 32px;
+  color: #5786ff;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+}
+
+.header nav a {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: 32px;
+}
+
+.header nav p {
+  margin-left: 4px;
+}
+
+.header nav:hover {
+  color: #5787ffa0;
+}
+
+.header nav a:hover {
+  text-decoration: underline;
+}
+
+.main_quest {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  position: relative;
+}
+
+.quest_card_wrapper {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 6rem;
+}
+
+.quest_card {
+  width: 100%;
+  height: 360px;
+  padding: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  background-color: #fff;
+}
+
+.quest_new_card {
+  width: 100%;
+  height: 340px;
+  padding: 16px;
+  background-color: rgba(59, 79, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px dashed #3b4fff;
+  cursor: pointer;
+}
+
+.quest_new_card img {
+  height: 100px;
+  width: auto;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.quest_new_card p {
+  color: #5786ff;
+  font-size: 12px;
+}
+
+.quest_key {
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.quest_value {
+  background-color: #f5f5f5;
+  padding: 4px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  font-size: 13x;
+  color: rgba(0, 0, 0, 0.8);
+  height: 32px;
+}
+
+.quest_value_textarea {
+  background-color: #f5f5f5;
+  padding: 4px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  font-size: 13x;
+  color: rgba(0, 0, 0, 0.8);
+  height: 80px;
+  resize: none;
+}
+
+.quest_value_help {
+  background-color: #ffffff;
+  border: 1px solid #5786ff;
+  color: #5786ff;
+  margin-bottom: 8px;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 13x;
+  cursor: pointer;
+  text-align: center;
+}
+
+.quest_detail {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.quest_detail p {
+  color: #5786ff;
+  font-size: 12px;
+  text-align: right;
+  cursor: pointer;
+}
+.quest_detail p:hover {
+  color: #5786ff50;
+}
+
+.quest_edit_wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #00000032;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quest_edit {
+  width: 500px;
+  background-color: #fff;
+  padding: 32px;
+}
+
+.quest_buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+.quest_buttons button {
+  width: 100px;
+  height: 32px;
+  border: 1px solid #5786ff;
+  background-color: white;
+  color: #5786ff;
+  border-radius: 4px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.quest_buttons button:hover {
+  background-color: #5786ff;
+  color: white;
+}
+
+.quest_edit input,
+.quest_edit textarea,
+.quest_edit select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.quest_edit input:focus,
+.quest_edit textarea:focus {
+  border-color: #5786ff;
+  outline: none;
+}
+
+.quest_key {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.key_value {
+  margin-bottom: 8px;
+}
+
+.quest_edit_wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.quest_edit {
+  width: 500px;
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quest_buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quest_buttons button {
+  width: 100px;
+  height: 32px;
+  border: 1px solid #5786ff;
+  background-color: white;
+  color: #5786ff;
+  border-radius: 4px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.quest_buttons button:hover {
+  background-color: #5786ff;
+  color: white;
+}
+
+.sidebar {
+  position: absolute;
+  right: 0px;
+  top: 0;
+  width: 400px;
+  padding: 80px 20px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -4px 0 4px rgba(59, 79, 255, 0.1);
+  transition: right 0.3s ease-in-out;
+}
+
+.sidebar textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  resize: none;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.sidebar p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+  font-weight: bold;
+}

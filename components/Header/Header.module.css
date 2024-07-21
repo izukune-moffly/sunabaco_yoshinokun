@@ -1,0 +1,49 @@
+.header {
+  height: 60px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.header nav {
+  margin-top: 0px;
+  display: inline-block;
+  text-decoration: none;
+  margin-right: 15px;
+  margin-left: 32px;
+  color: #5786ff;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+}
+
+.header nav a {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: 32px;
+}
+
+.header nav p {
+  margin-left: 4px;
+}
+
+.header nav:hover {
+  color: #5787ffa0;
+}
+
+.header nav a:hover {
+  text-decoration: underline;
+}
