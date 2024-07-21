@@ -202,7 +202,12 @@ export default function Quest() {
                 {quest.contractor ? (
                   <p className={styles.quest_value}>{quest.contractor}</p>
                 ) : (
-                  <p className={styles.quest_value_help}>業務を手伝う</p>
+                  <p
+                    className={styles.quest_value_help}
+                    onClick={() => handleDetailClick(index)}
+                  >
+                    業務を手伝う
+                  </p>
                 )}
               </div>
               <div
@@ -277,9 +282,12 @@ export default function Quest() {
                       ) : quest.contractor ? (
                         <p className={styles.quest_value}>{quest.contractor}</p>
                       ) : (
-                        <button className={styles.help_button}>
+                        <p
+                          className={styles.quest_value_help}
+                          onClick={() => handleDetailClick(index)}
+                        >
                           業務を手伝う
-                        </button>
+                        </p>
                       )}
                     </div>
                     <div className={styles.quest_buttons}>
