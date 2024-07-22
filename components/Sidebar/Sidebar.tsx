@@ -18,8 +18,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
   if (!isSidebarVisible) return null;
 
   const handleButtonClick = async () => {
-    setIsLoading(true);
     const chat = async (prompt: string) => {
+      setIsLoading(true); // リクエストが開始されたことを示すためにローディング状態を設定
       try {
         const response = await axios.post(
           `${API_URL}chat/completions`,
@@ -35,14 +35,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${API_KEY}`,
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
             },
           }
         );
         console.log(prompt);
         return response.data.choices[0].message.content;
       } catch (error) {
-        console.error(error);
+        if (error.response) {
+          // サーバーがレスポンスを返したが、ステータスコードが 2xx の範囲外
+          console.error("Error data:", error.response.data);
+          console.error("Error status:", error.response.status);
+          console.error("Error headers:", error.response.headers);
+        } else if (error.request) {
+          // リクエストが作成されたが、レスポンスが受信されなかった
+          console.error("Error request:", error.request);
+        } else {
+          // リクエストの設定中にエラーが発生
+          console.error("Error message:", error.message);
+        }
+        console.error("Error config:", error.config);
         return null;
       } finally {
         setIsLoading(false);
