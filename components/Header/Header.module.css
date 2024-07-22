@@ -1,3 +1,4 @@
+/* components/Header.module.css */
 .header {
   height: 60px;
   background-color: #ffffff;
@@ -28,12 +29,7 @@
   cursor: pointer;
   align-items: center;
   display: flex;
-}
-
-.header nav a {
-  color: #007bff;
-  text-decoration: none;
-  margin-right: 32px;
+  font-size: 24px;
 }
 
 .header nav p {
@@ -42,8 +38,4 @@
 
 .header nav:hover {
   color: #5787ffa0;
-}
-
-.header nav a:hover {
-  text-decoration: underline;
 }

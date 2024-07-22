@@ -1,0 +1,25 @@
+/* components/NewQuestCard.module.css */
+.quest_new_card {
+  width: 100%;
+  height: 360px;
+  padding: 16px;
+  background-color: rgba(59, 79, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px dashed #3b4fff;
+  cursor: pointer;
+}
+
+.quest_new_card img {
+  height: 100px;
+  width: auto;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.quest_new_card p {
+  color: #5786ff;
+  font-size: 12px;
+}
