@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
         );
         console.log(prompt);
         return response.data.choices[0].message.content;
-      } catch (error) {
+      } catch (error: any) {
         if (error.response) {
           // サーバーがレスポンスを返したが、ステータスコードが 2xx の範囲外
           console.error("Error data:", error.response.data);
