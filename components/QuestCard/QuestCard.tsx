@@ -8,6 +8,8 @@ interface Quest {
   content: string;
   estimatedTime: string;
   contractor: string;
+  complete: boolean; // 追加
+  createdAt: string; // 追加
 }
 
 interface QuestCardProps {
@@ -17,6 +19,7 @@ interface QuestCardProps {
   handleEditClick: () => void;
   handleSaveClick: () => void;
   handleDetailClose: () => void;
+  handleCompleteClick: (index: number) => void;
   handleDeleteClick: (index: number) => void;
   handleChange: (
     e: React.ChangeEvent<
@@ -36,6 +39,7 @@ const QuestCard: React.FC<QuestCardProps> = ({
   handleDetailClick,
   handleEditClick,
   handleSaveClick,
+  handleCompleteClick,
   handleDeleteClick,
   handleDetailClose,
   handleChange,
@@ -90,6 +94,12 @@ const QuestCard: React.FC<QuestCardProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.key_value}>
+              <p className={styles.quest_key}>ステータス</p>
+              <p className={styles.quest_value}>
+                {quest.complete ? "完了" : "未完了"}
+              </p>
+            </div>
+            <div className={styles.key_value}>
               <p className={styles.quest_key}>依頼者</p>
               {isEditing ? (
                 <input
@@ -111,7 +121,7 @@ const QuestCard: React.FC<QuestCardProps> = ({
                   onChange={(e) => handleChange(e, index)}
                 />
               ) : (
-                <p className={styles.quest_value}>{quest.content}</p>
+                <p className={styles.quest_value_textarea}>{quest.content}</p>
               )}
             </div>
             <div className={styles.key_value}>
@@ -133,6 +143,12 @@ const QuestCard: React.FC<QuestCardProps> = ({
               )}
             </div>
             <div className={styles.key_value}>
+              <p className={styles.quest_key}>起票日</p>
+              <p className={styles.quest_value}>
+                {new Date(quest.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+            <div className={styles.key_value}>
               <p className={styles.quest_key}>受注者</p>
               {isEditing ? (
                 <input
@@ -152,12 +168,17 @@ const QuestCard: React.FC<QuestCardProps> = ({
                 </p>
               )}
             </div>
+
             <div className={styles.quest_buttons}>
               {isEditing ? (
                 <button onClick={handleSaveClick}>保存する</button>
+              ) : quest.complete ? (
+                <button onClick={() => handleDeleteClick(index)}>
+                  削除する
+                </button>
               ) : (
                 <div>
-                  <button onClick={() => handleDeleteClick(index)}>
+                  <button onClick={() => handleCompleteClick(index)}>
                     完了する
                   </button>
                   <button onClick={handleEditClick}>編集する</button>

@@ -8,9 +8,13 @@ const API_KEY = process.env.OPENAI_API_KEY;
 
 interface SidebarProps {
   isSidebarVisible: boolean;
+  handleNewCardClickWithContent: (content: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  isSidebarVisible,
+  handleNewCardClickWithContent,
+}) => {
   const [activeTab, setActiveTab] = useState("業務分析");
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
     }
     const message = messageElement.value;
     const prompt = `
-    ◯私の今日やること：${message}\n\n
+    ◯私の今日やること：${message}\n
 
     ### 指示\n
     このタスクをできるだけ簡単に5つに分解して他のメンバーに依頼できるようにしてください。出力形式はjsonにしてください。\n\n
@@ -107,7 +111,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
             ) : (
               <div id="responseList" className={styles.sidebarContentList}>
                 {response && (
-                  <pre>{JSON.stringify(JSON.parse(response), null, 2)}</pre>
+                  <>
+                    <p>以下の内容を依頼するのはどうですか？</p>
+                    {Object.values(JSON.parse(response)).map((task, index) => (
+                      <div
+                        key={index}
+                        className={styles.taskItem}
+                        onClick={() =>
+                          handleNewCardClickWithContent(task as string)
+                        }
+                      >
+                        {task as React.ReactNode}
+                      </div>
+                    ))}
+                  </>
                 )}
               </div>
             )}
@@ -126,16 +143,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarVisible }) => {
     }
   };
 
-  return (
-    <div className={styles.sidebar}>
-      <div className={styles.sidebarTabs}>
-        <button className={styles.sidebarTab}>業務分解</button>
-        <button className={styles.sidebarTab}>依頼分析</button>
-        <button className={styles.sidebarTab}>よしのくん</button>
-      </div>
-      {renderContent()}
-    </div>
-  );
+  return <div className={styles.sidebar}>{renderContent()}</div>;
 };
 
 export default Sidebar;

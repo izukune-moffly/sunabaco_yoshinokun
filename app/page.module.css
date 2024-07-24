@@ -4,6 +4,7 @@
   min-height: 100vh;
   background-color: #f5f5f5;
   position: relative;
+  display: flex;
 }
 
 .quest_card_wrapper {
@@ -11,9 +12,9 @@
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  padding: 6rem;
+  padding: 6rem 2rem;
 }
 
 .quest_edit_wrapper {

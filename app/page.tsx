@@ -19,6 +19,7 @@ import NewQuestCard from "../components/NewQuestCard/NewQuestCard";
 import Sidebar from "../components/Sidebar/Sidebar";
 import QuestCreationForm from "../components/QuestCreationForm/QuestCreationForm";
 import styles from "./page.module.css";
+import { truncate } from "fs";
 
 interface Quest {
   id: string;
@@ -26,6 +27,8 @@ interface Quest {
   content: string;
   estimatedTime: string;
   contractor: string;
+  complete: boolean;
+  createdAt: string; // 追加
 }
 
 export default function Quest() {
@@ -54,8 +57,12 @@ export default function Quest() {
     content: "",
     estimatedTime: "0:00",
     contractor: "",
+    complete: false,
+    createdAt: new Date().toISOString(), // 追加
   });
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [showComplete, setShowComplete] = useState(false);
+  const [showIncomplete, setShowIncomplete] = useState(true);
 
   useEffect(() => {
     const fetchQuestData = async () => {
@@ -69,6 +76,10 @@ export default function Quest() {
           content: data.content || "",
           estimatedTime: data.estimatedTime || "",
           contractor: data.contractor || "",
+          complete: data.complete || false,
+          createdAt: data.createdAt
+            ? new Date(data.createdAt).toISOString()
+            : "", // 修正
         });
       });
       setQuests(questsData);
@@ -85,6 +96,10 @@ export default function Quest() {
           content: data.content || "",
           estimatedTime: data.estimatedTime || "",
           contractor: data.contractor || "",
+          complete: data.complete || false,
+          createdAt: data.createdAt
+            ? new Date(data.createdAt).toISOString()
+            : "", // 修正
         });
       });
       setQuests(questsData);
@@ -105,17 +120,30 @@ export default function Quest() {
         content: quest.content,
         estimatedTime: quest.estimatedTime,
         contractor: quest.contractor,
+        complete: quest.complete,
+        createdAt: quest.createdAt, // 追加
       });
     }
     setIsEditing(false);
+    setIsShowDetail(false);
+  };
+
+  const handleCompleteClick = async (index: number) => {
+    const quest = quests[index];
+    const questRef = doc(db, "quest", quest.id);
+    await updateDoc(questRef, {
+      complete: true,
+    });
+    setIsEditing(false);
+    setIsShowDetail(false);
   };
 
   const handleDeleteClick = async (index: number) => {
     const quest = quests[index];
     const questRef = doc(db, "quest", quest.id);
     await deleteDoc(questRef);
-    setQuests((prevQuests) => prevQuests.filter((_, i) => i !== index));
     setIsEditing(false);
+    setIsShowDetail(false);
   };
 
   const handleCreateClick = async () => {
@@ -133,6 +161,8 @@ export default function Quest() {
         content: "",
         estimatedTime: "",
         contractor: "",
+        complete: false,
+        createdAt: new Date().toISOString(), // 追加
       });
     }
   };
@@ -180,13 +210,40 @@ export default function Quest() {
     setIsCreating(true);
   };
 
+  const handleNewCardClickWithContent = (content?: string) => {
+    setIsCreating(true);
+    setNewQuest((prevNewQuest) => ({
+      ...prevNewQuest,
+      content: content || "",
+    }));
+  };
+
   const handleCreateClose = () => {
     setIsCreating(false);
     setIsEditing(false);
+    setNewQuest({
+      id: "",
+      requester: "",
+      content: "",
+      estimatedTime: "",
+      contractor: "",
+      complete: false,
+      createdAt: new Date().toISOString(), // 追加
+    });
   };
 
   const handleSidebarToggle = () => {
     setIsSidebarVisible((prev) => !prev);
+  };
+
+  const handleShowCompleteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowComplete(e.target.checked);
+  };
+
+  const handleShowIncompleteChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setShowIncomplete(e.target.checked);
   };
 
   const timeOptions = Array.from({ length: 24 }, (_, i) => {
@@ -194,32 +251,49 @@ export default function Quest() {
     const minutes = i % 2 === 0 ? "00" : "30";
     return `${hours}:${minutes}`;
   });
-  console.log(quests);
+  console.log("showComplete", showComplete);
+  console.log("showIncomplete", showIncomplete);
 
   return (
     <>
-      <Header handleSidebarToggle={handleSidebarToggle} />
+      <Header
+        handleSidebarToggle={handleSidebarToggle}
+        handleShowCompleteChange={handleShowCompleteChange}
+        handleShowIncompleteChange={handleShowIncompleteChange}
+        showComplete={showComplete}
+        showIncomplete={showIncomplete}
+      />
       <main className={styles.main_quest}>
+        <Sidebar
+          isSidebarVisible={isSidebarVisible}
+          handleNewCardClickWithContent={handleNewCardClickWithContent}
+        />
         <div className={styles.quest_card_wrapper}>
-          {quests.map((quest, index) => (
-            <QuestCard
-              key={index}
-              quest={quest}
-              index={index}
-              handleDetailClick={handleDetailClick}
-              handleEditClick={handleEditClick}
-              handleSaveClick={handleSaveClick}
-              handleDeleteClick={handleDeleteClick}
-              handleDetailClose={handleDetailClose}
-              handleChange={handleChange}
-              isEditing={isEditing}
-              isShowDetail={isShowDetail}
-              selectedQuestIndex={selectedQuestIndex}
-              timeOptions={timeOptions}
-            />
-          ))}
+          {quests
+            .filter(
+              (quest) =>
+                (showComplete && quest.complete) ||
+                (showIncomplete && !quest.complete)
+            )
+            .map((quest, index) => (
+              <QuestCard
+                key={index}
+                quest={quest}
+                index={index}
+                handleDetailClick={handleDetailClick}
+                handleEditClick={handleEditClick}
+                handleSaveClick={handleSaveClick}
+                handleCompleteClick={handleCompleteClick}
+                handleDeleteClick={handleDeleteClick}
+                handleDetailClose={handleDetailClose}
+                handleChange={handleChange}
+                isEditing={isEditing}
+                isShowDetail={isShowDetail}
+                selectedQuestIndex={selectedQuestIndex}
+                timeOptions={timeOptions}
+              />
+            ))}
           <NewQuestCard handleNewCardClick={handleNewCardClick} />
-          <Sidebar isSidebarVisible={isSidebarVisible} />
           <QuestCreationForm
             isCreating={isCreating}
             newQuest={newQuest}
