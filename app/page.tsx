@@ -129,13 +129,15 @@ export default function Quest() {
   };
 
   const handleCompleteClick = async (index: number) => {
-    const quest = quests[index];
-    const questRef = doc(db, "quest", quest.id);
-    await updateDoc(questRef, {
-      complete: true,
-    });
-    setIsEditing(false);
-    setIsShowDetail(false);
+    if (selectedQuestIndex !== null) {
+      const quest = quests[selectedQuestIndex];
+      const questRef = doc(db, "quest", quest.id);
+      await updateDoc(questRef, {
+        complete: true,
+      });
+      setIsEditing(false);
+      setIsShowDetail(false);
+    }
   };
 
   const handleDeleteClick = async (index: number) => {
@@ -251,8 +253,7 @@ export default function Quest() {
     const minutes = i % 2 === 0 ? "00" : "30";
     return `${hours}:${minutes}`;
   });
-  console.log("showComplete", showComplete);
-  console.log("showIncomplete", showIncomplete);
+  console.log("quests", quests);
 
   return (
     <>
@@ -269,30 +270,24 @@ export default function Quest() {
           handleNewCardClickWithContent={handleNewCardClickWithContent}
         />
         <div className={styles.quest_card_wrapper}>
-          {quests
-            .filter(
-              (quest) =>
-                (showComplete && quest.complete) ||
-                (showIncomplete && !quest.complete)
-            )
-            .map((quest, index) => (
-              <QuestCard
-                key={index}
-                quest={quest}
-                index={index}
-                handleDetailClick={handleDetailClick}
-                handleEditClick={handleEditClick}
-                handleSaveClick={handleSaveClick}
-                handleCompleteClick={handleCompleteClick}
-                handleDeleteClick={handleDeleteClick}
-                handleDetailClose={handleDetailClose}
-                handleChange={handleChange}
-                isEditing={isEditing}
-                isShowDetail={isShowDetail}
-                selectedQuestIndex={selectedQuestIndex}
-                timeOptions={timeOptions}
-              />
-            ))}
+          {quests.map((quest, index) => (
+            <QuestCard
+              key={index}
+              quest={quest}
+              index={index}
+              handleDetailClick={handleDetailClick}
+              handleEditClick={handleEditClick}
+              handleSaveClick={handleSaveClick}
+              handleCompleteClick={handleCompleteClick}
+              handleDeleteClick={handleDeleteClick}
+              handleDetailClose={handleDetailClose}
+              handleChange={handleChange}
+              isEditing={isEditing}
+              isShowDetail={isShowDetail}
+              selectedQuestIndex={selectedQuestIndex}
+              timeOptions={timeOptions}
+            />
+          ))}
           <NewQuestCard handleNewCardClick={handleNewCardClick} />
           <QuestCreationForm
             isCreating={isCreating}

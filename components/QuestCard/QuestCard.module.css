@@ -5,6 +5,21 @@
   padding: 16px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background-color: #fff;
+  position: relative;
+}
+
+.status {
+  width: 60px;
+  height: 20px;
+  background-color: #2a9743;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 4px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 
 .quest_key {

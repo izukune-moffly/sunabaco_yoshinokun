@@ -49,7 +49,12 @@ const QuestCard: React.FC<QuestCardProps> = ({
   timeOptions,
 }) => {
   return (
-    <div className={styles.quest_card}>
+    <div
+      className={`${styles.quest_card} ${
+        quest.complete ? styles.complete : ""
+      }`}
+    >
+      {quest.complete && <p className={styles.status}>完了</p>}
       <div className={styles.key_value}>
         <p className={styles.quest_key}>依頼者</p>
         <p className={styles.quest_value}>{quest.requester}</p>

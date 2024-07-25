@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
       <h1>よしのくん</h1>
       <nav>
         <FiMenu className={styles.menuIcon} onClick={toggleModal} />
-        <div
+        {/* <div
           id="modal"
           className={styles.modal}
           style={{ display: isModalVisible ? "block" : "none" }}
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
             />
             完了
           </label>
-        </div>
+        </div> */}
       </nav>
     </header>
   );
